@@ -40,9 +40,11 @@ public suspend fun proxyHandler(socket: Socket) {
     val response = when (statusLine) {
         "GET http://google.com/ HTTP/1.1" -> buildResponse(HttpStatusCode.OK)
         "GET http://google.com/json HTTP/1.1" -> buildResponse(
-            HttpStatusCode.OK, buildHeaders {
+            HttpStatusCode.OK,
+            buildHeaders {
                 append(HttpHeaders.ContentType, ContentType.Application.Json)
-            }, "{\"status\": \"ok\"}"
+            },
+            "{\"status\": \"ok\"}"
         )
         "GET /?ktor-test-tunnel HTTP/1.1" -> buildResponse(HttpStatusCode.OK, listOf("X-Proxy: yes\r\n"))
         "GET /headers-merge HTTP/1.1" -> buildResponse(
